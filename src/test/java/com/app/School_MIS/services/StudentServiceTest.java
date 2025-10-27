@@ -5,6 +5,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,5 +36,12 @@ public class StudentServiceTest {
         assertThat(saved.getName()).isEqualTo("pascal");
         verify(studentRepository, times(1)).save(student);
     }
-
+    @Test
+    public void testGetAllStudents(){
+        Student student1 = new Student("pascal", "pascal@gmail.com");
+        Student student2 = new Student("pascal", "pascal@gmail.com");
+        when(studentRepository.findAll()).thenReturn(Arrays.asList(student1, student2));
+        List<Student> students = studentService.getAllStudents();
+        assertThat(students).hasSize(2).contains(student1, student2);
+    }
 }
