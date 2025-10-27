@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ public class StudentServiceTest {
         MockitoAnnotations.openMocks(this);
     }
     @Test
-    public void testAddStudent() {
+    void testAddStudent() {
         Student student = new Student("pascal", "pascal@gmail.com");
         when(studentRepository.save(student)).thenReturn(student);
         Student saved = studentService.addStudent(student);
@@ -37,11 +38,19 @@ public class StudentServiceTest {
         verify(studentRepository, times(1)).save(student);
     }
     @Test
-    public void testGetAllStudents(){
+    void testGetAllStudents() {
         Student student1 = new Student("pascal", "pascal@gmail.com");
         Student student2 = new Student("pascal", "pascal@gmail.com");
         when(studentRepository.findAll()).thenReturn(Arrays.asList(student1, student2));
         List<Student> students = studentService.getAllStudents();
         assertThat(students).hasSize(2).contains(student1, student2);
+    }
+    @Test
+    void testGetStudentByEmail() {
+        Student student = new Student("pascal", "pascal@gmail.com");
+        when(studentRepository.findByEmail("pascal@gmail.com")).thenReturn(Optional.of(student));
+        Student found = studentService.getStudentByEmail("pascal@gmail.com");
+        assertThat(found).isNotNull();
+        assertThat(found.getEmail()).isEqualTo("pascal@gmail.com");
     }
 }
