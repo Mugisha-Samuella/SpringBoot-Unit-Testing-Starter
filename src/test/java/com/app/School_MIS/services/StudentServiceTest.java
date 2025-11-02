@@ -31,26 +31,26 @@ public class StudentServiceTest {
     }
     @Test
     void testAddStudent() {
-        Student student = new Student("pascal", "pascal@gmail.com");
+        Student student = new Student("samuella", "samuella@gmail.com");
         when(studentRepository.save(student)).thenReturn(student);
         Student saved = studentService.addStudent(student);
-        assertThat(saved.getName()).isEqualTo("pascal");
+        assertThat(saved.getName()).isEqualTo("samuella");
         verify(studentRepository, times(1)).save(student);
     }
     @Test
     void testGetAllStudents() {
-        Student student1 = new Student("pascal", "pascal@gmail.com");
-        Student student2 = new Student("pascal", "pascal@gmail.com");
+        Student student1 = new Student("samuella", "samuella@gmail.com");
+        Student student2 = new Student("samuella", "samuella@gmail.com");
         when(studentRepository.findAll()).thenReturn(Arrays.asList(student1, student2));
         List<Student> students = studentService.getAllStudents();
         assertThat(students).hasSize(2).contains(student1, student2);
     }
     @Test
     void testGetStudentByEmail() {
-        Student student = new Student("pascal", "pascal@gmail.com");
-        when(studentRepository.findByEmail("pascal@gmail.com")).thenReturn(Optional.of(student));
-        Student found = studentService.getStudentByEmail("pascal@gmail.com");
+        Student student = new Student("samuella", "samuella@gmail.com");
+        when(studentRepository.findByEmail("samuella@gmail.com")).thenReturn(Optional.of(student));
+        Student found = studentService.getStudentByEmail("samuella@gmail.com");
         assertThat(found).isNotNull();
-        assertThat(found.getEmail()).isEqualTo("pascal@gmail.com");
+        assertThat(found.getEmail()).isEqualTo("samuella@gmail.com");
     }
 }
